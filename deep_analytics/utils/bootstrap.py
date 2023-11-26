@@ -17,7 +17,10 @@ def generate_test_data(num_subjects=3, num_conds=2, num_items=5):
     
     return D
 
-def bootstrap_single_dim(D, dim, n_bootstrap=1000, seed=123):
+def bootstrap_single_dim(D, dim, n_bootstrap=1000, seed=None):
+    if dim < 0:
+        dim = D.ndim + dim
+        
     num_items = D.shape[dim]
     
     # Initialize the random number generator
@@ -59,7 +62,8 @@ def bootstrap_multi_dim(D, dims, n_bootstrap=10000, seed=None, vectorized=False)
     array while incorporating the bootstrap dimension.
     """    
     if isinstance(dims, int): dims = (dims,)
-
+    dims = tuple([dim + D.ndim if dim < 0 else dim for dim in dims])
+    
     rng = RandomState(seed)
 
     # Generate random indices for each specified dimension, repeat original indices for other dimensions

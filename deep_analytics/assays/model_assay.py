@@ -16,8 +16,8 @@ class ModelAssay(object):
                                 shuffle=False, pin_memory=True)
         return dataloader
     
-    def compute_stats(self, df):
-        raise NotImplementedError("Subclasses of ModelAssay should implement `compute_stats`.")
+    def compute_metrics(self, df):
+        raise NotImplementedError("Subclasses of ModelAssay should implement `compute_metrics`.")
         
     def plot_results(self, df):
         raise NotImplementedError("Subclasses of ModelAssay should implement `plot_results`.")

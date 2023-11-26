@@ -3,6 +3,7 @@ import io
 import gc
 from collections import defaultdict
 from contextlib import redirect_stdout
+from functools import partial
 
 import torch
 import torch.nn as nn
@@ -14,6 +15,7 @@ from fastprogress import master_bar, progress_bar
 
 from ..model_assay import ModelAssay
 from ...utils.bootstrap import bootstrap_multi_dim
+from ...utils.stats import AccumMetric
 from .metrics import *
 
 from pdb import set_trace
@@ -35,19 +37,21 @@ class AdversarialAttacks(ModelAssay):
         imagenet1k=('imagenet1k_s256', 'val')
     )
     
-    def compute_metrics(self, df, n_bootstrap=1000, seed=None):
+    def compute_metrics(self, df, data_column, n_bootstrap=1000, bootstrap_dims=(-1), seed=None):
         
-        results = dataframe_to_array(df)
+        results = dataframe_to_array(df[df.image_set=='adversarial'], data_column)
         D = results['D']
-        epsilons = results['epsilons']
+        epsilons = np.array(results['epsilons'])
         
-        samples = bootstrap_multi_dim(D[0,0], dims=(1), n_bootstrap=n_bootstrap)
+        samples = bootstrap_multi_dim(D, dims=bootstrap_dims, n_bootstrap=n_bootstrap)
 
         metrics = dict([
-            ('acc_by_eps', AccumMetric(partial(compute_normalized_acc_by_eps, epsilons=epsilons))),
+            ('acc_by_eps', AccumMetric(partial(compute_acc_by_eps, epsilons=epsilons))),
+            ('norm_acc_by_eps', AccumMetric(partial(compute_normalized_acc_by_eps, epsilons=epsilons))),
             ('norm_auc', AccumMetric(partial(compute_normalized_auc, epsilons=epsilons))),
             ('norm_acc', AccumMetric(partial(compute_normalized_acc, epsilons=epsilons))),
-            ('weighted_norm_acc', AccumMetric(partial(compute_weighted_adv_acc, epsilons=epsilons, normalize=True))),
+            ('norm_adv_acc', AccumMetric(partial(compute_normalized_adv_acc, epsilons=epsilons))),
+            ('weighted_norm_adv_acc', AccumMetric(partial(compute_weighted_adv_acc, epsilons=epsilons, normalize=True))),
             ('thresh_half_minmax', AccumMetric(partial(compute_thresh_half_minmax, epsilons=epsilons, normalize=True)))
         ])
 
