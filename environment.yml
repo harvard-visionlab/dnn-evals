@@ -1,0 +1,13 @@
+name: analysis
+channels:
+  - conda-forge
+  - pytorch
+  - nvidia
+  - fastai
+dependencies:
+  - python=3.10
+  - mamba
+  - pytorch
+  - torchvision
+  - torchaudio
+  - pytorch-cuda=12.1

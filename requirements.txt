@@ -1,0 +1,39 @@
+# General, Miscellaneous
+attrs
+fastprogress
+git+https://github.com/GuillaumeLeclerc/fastargs.git
+IProgress
+ipywidgets
+natsort
+numba
+numpy
+seaborn
+setuptools
+torchattacks
+
+# Deep Learning Libraries
+einops
+mosaicml[nlp,unet,timm,wandb,streaming,vit,coco]
+torchmetrics
+cleanvision
+
+# Image Processing
+albumentations
+kornia
+git+https://github.com/loopbio/PyTurboJPEG.git
+
+# Jupyter Notebook Utilities
+ipykernel
+nbconvert
+nbformat
+
+# AWS Utilities
+boto3
+awscli==1.29.62
+awscli-plugin-endpoint==0.4
+
+# pytorch models
+git+https://github.com/huggingface/pytorch-image-models.git
+facenet-pytorch
+git+https://github.com/facebookresearch/r3m.git
+git+https://github.com/openai/CLIP.git

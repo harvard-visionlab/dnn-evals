@@ -8,8 +8,10 @@ import boto3
 import tarfile
 import zipfile
 from urllib.parse import urlparse
+from urllib.request import urlopen, Request
 from pathlib import Path
 from botocore.exceptions import NoCredentialsError
+from tqdm import tqdm
 
 import torch
 from typing import Any, Callable, Dict, List, Mapping, Optional, Type, TypeVar, Union
@@ -347,3 +349,32 @@ def get_filename_without_suffixes(file_path):
     extensions = "".join(Path(file_path).suffixes)
     filename_without_suffixes = Path(file_path).name.replace(extensions, "")
     return filename_without_suffixes
+
+def get_remote_hash(url, progress=True):
+    file_size = None
+    req = Request(url, headers={"User-Agent": "torch.hub"})
+    u = urlopen(req)
+    meta = u.info()
+    if hasattr(meta, 'getheaders'):
+        content_length = meta.getheaders("Content-Length")
+    else:
+        content_length = meta.get_all("Content-Length")
+    if content_length is not None and len(content_length) > 0:
+        file_size = int(content_length[0])
+
+    try:
+        sha256 = hashlib.sha256()
+        with tqdm(total=file_size, disable=not progress,
+                  unit='B', unit_scale=True, unit_divisor=1024) as pbar:
+            while True:
+                buffer = u.read(8192)
+                if len(buffer) == 0:
+                    break
+                sha256.update(buffer)
+                pbar.update(len(buffer))
+
+        digest = sha256.hexdigest()
+    finally:
+        pass
+    
+    return digest

@@ -1,6 +1,6 @@
 from torchvision.datasets import ImageFolder, ImageNet
 from torchvision.datasets.folder import default_loader
-
+    
 class ImageFolderIndex(ImageFolder):
     def __getitem__(self, index):
         path, target = self.samples[index]
