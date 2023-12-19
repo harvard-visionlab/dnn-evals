@@ -1,7 +1,12 @@
 # probes
 testing out some probes
 
-# use venv
+# environment
+```
+source $VENV_DIR/analysis/bin/activate
+```
+
+# create venv
 ```
 # make sure to load the Mamba/Conda module on the cluster
 module load Mambaforge/23.3.1-fasrc01
