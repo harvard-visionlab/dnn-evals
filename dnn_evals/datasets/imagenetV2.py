@@ -8,8 +8,30 @@ from natsort import natsorted
 from pathlib import Path
 from .folder import ImageFolderIndex, default_loader
 from .storage import download_if_needed, download_file
+from .registry import register_dataset 
 
 __all__ = ['imagenetV2']
+
+source = "imagenetV2"
+repo = "https://imagenetv2.org/"
+citation = '''
+@article{DBLP:journals/corr/abs-1902-10811,
+  author       = {Benjamin Recht and
+                  Rebecca Roelofs and
+                  Ludwig Schmidt and
+                  Vaishaal Shankar},
+  title        = {Do ImageNet Classifiers Generalize to ImageNet?},
+  journal      = {CoRR},
+  volume       = {abs/1902.10811},
+  year         = {2019},
+  url          = {http://arxiv.org/abs/1902.10811},
+  eprinttype    = {arXiv},
+  eprint       = {1902.10811},
+  timestamp    = {Tue, 21 May 2019 18:03:38 +0200},
+  biburl       = {https://dblp.org/rec/journals/corr/abs-1902-10811.bib},
+  bibsource    = {dblp computer science bibliography, https://dblp.org}
+}
+'''
 
 public_urls = {
     "top-images": (
@@ -34,6 +56,7 @@ s3_urls = {
 
 splits = list(s3_urls.keys())
 
+@register_dataset(source, repo, citation)
 def imagenetV2(split, transform=None, **kwargs):
     url = s3_urls[split]
     # data are decompressed to a folder matching filename, e.g., imagenetv2-top-images-format-val-d9d6134f

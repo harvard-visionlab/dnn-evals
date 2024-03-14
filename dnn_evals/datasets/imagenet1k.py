@@ -1,8 +1,14 @@
 from .folder import ImageNetIndex
 from .storage import download_if_needed, download_file
+from .registry import register_dataset 
 
 __all__ = ['imagenet1k_s256']
 
+source = "imagenet1k"
+repo = ""
+citation = ''''''
+
+@register_dataset(source, repo, citation)
 def imagenet1k_s256(split, transform=None, **kwargs):
     if split=="val":
         data_dir = download_if_needed('s3://visionlab-datasets/imagenet1k-256/in1k-val-d74759d1.tar.gz')

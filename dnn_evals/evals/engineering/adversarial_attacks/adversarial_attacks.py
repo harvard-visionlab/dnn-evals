@@ -13,7 +13,7 @@ import torchattacks
 import matplotlib.pyplot as plt
 from fastprogress import master_bar, progress_bar
 
-from ..model_assay import ModelAssay
+from ...model_eval import ModelEval
 from ...utils.bootstrap import bootstrap_multi_dim
 from ...utils.stats import AccumMetric
 from .metrics import *
@@ -30,7 +30,7 @@ default_epsilon = [0., .001, .002, .003, 0.006, 0.012, 0.018, 0.024, 0.03 , 0.03
 
 __all__ = ['AdversarialAttacks', 'AttackTypes']
 
-class AdversarialAttacks(ModelAssay):
+class AdversarialAttacks(ModelEval):
     
     datasets = dict(
         imagenette2=('imagenette2_s320_remap1k', 'val'),

@@ -1,2 +1,2 @@
-from .assays import *
+from .evals import *
 from .datasets import *

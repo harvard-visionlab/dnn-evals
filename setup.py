@@ -1,6 +1,6 @@
 from setuptools import setup, find_packages
 
 setup(
-    name = 'deep_analytics',
+    name = 'dnn_evals',
     packages = find_packages(),
 )
