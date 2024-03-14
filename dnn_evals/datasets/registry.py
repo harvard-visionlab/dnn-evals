@@ -1,4 +1,5 @@
 from collections import defaultdict
+from pdb import set_trace
 
 __all__ = ['list_datasources', 'list_datasets', 'get_dataset_info', 'load_dataset']
 
@@ -23,10 +24,12 @@ def list_datasources():
     """
     return list(_dataset_registry.keys())
 
-def list_datasets(datasource):
+def list_datasets(datasource=None):
     """ Return list of available datasets, sorted alphabetically
     """
-    return [dset['dataset_name'] for dset in _dataset_registry[datasource]]
+    if datasource is not None:
+        return [dset['dataset_name'] for dset in _dataset_registry[datasource]]        
+    return [dset['dataset_name'] for datasource in list_datasources() for dset in _dataset_registry[datasource]]
 
 def get_dataset_info(datasource, dataset_name):
     for dataset in _dataset_registry[datasource]:

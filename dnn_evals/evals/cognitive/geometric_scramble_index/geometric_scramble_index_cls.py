@@ -13,7 +13,7 @@ import torchattacks
 import matplotlib.pyplot as plt
 from fastprogress import master_bar, progress_bar
 
-from ..model_assay import ModelEval
+from ...model_eval import ModelEval
 from ...utils.bootstrap import bootstrap_multi_dim
 from ...utils.stats import AccumMetric
 from .metrics import *
