@@ -6,7 +6,7 @@ __all__ = ['geometric_scramble_classification', 'imshow_scrambled']
 
 def geometric_scramble_classification(dataset_name, split='val', root_dir=None, labelmap=None, block_shuffle=True, block_rotate=False, grayscale=True, 
                  img_size=256, crop_size=224, mean=[0.485, 0.456, 0.406], std=[0.229, 0.224, 0.225],
-                 shuffle_seed=12345, rotate_seed=123456, entity=None, project=None):
+                 shuffle_seed=12345, rotate_seed=123456):
     
     tmp_dataset = None
     if root_dir is None and dataset_name in list_datasets():
